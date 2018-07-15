@@ -1,0 +1,2 @@
+# rush
+A Rust shell.
