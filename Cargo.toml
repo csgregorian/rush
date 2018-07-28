@@ -1,0 +1,10 @@
+[package]
+name = "rush"
+version = "0.1.0"
+authors = ["Christopher Gregorian <csgregorian@gmail.com>"]
+
+[dependencies]
+
+[[bin]]
+name = "rush"
+path = "main.rs"
