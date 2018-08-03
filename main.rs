@@ -1,12 +1,24 @@
 use std::io;
 
+mod commands;
+use commands::Command;
+
 fn main() {
 	loop {
-		println!("Enter commands:");
+		println!("> ");
 
 		let input = get_input();
-		let command = make_command(input);
-		println!("{:?}", command);
+		let parsed_command = make_command(input);
+
+		let command = match parsed_command.name.as_ref() {
+			"echo" => Some(commands::Echo{}),
+			_ => None
+		};
+
+		match command {
+			Some(cmd) => cmd.execute(parsed_command.params),
+			None => println!("Command not found")
+		}
 	}
 }
 
@@ -24,13 +36,14 @@ fn get_input() -> String {
 }
 
 #[derive(Debug)]
-struct Command {
+struct ParsedCommand {
 	name: String,
 	params: Vec<String>,
 }
 
-fn make_command(input_string: String) -> Command {
+fn make_command(input_string: String) -> ParsedCommand {
 	let mut input = input_string.split_whitespace();
+
 	let name = match input.next() {
 		Some(word) => word.to_string(),
 		None => panic!("wat"),
@@ -41,7 +54,7 @@ fn make_command(input_string: String) -> Command {
 		params.push(word.to_string())
 	}
 
-	Command {
+	ParsedCommand {
 		name: name,
 		params: params,
 	}
