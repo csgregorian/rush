@@ -1,8 +1,5 @@
 use std::io;
 
-mod commands;
-use commands::Command;
-
 fn main() {
 	loop {
 		println!("> ");
