@@ -1,20 +1,37 @@
 use std::io;
+use std::io::Write;
+use std::option::Option;
+
+mod commands;
+mod state;
+
+use commands::Command;
 
 fn main() {
+	let mut state = state::State::new("~/");
+
 	loop {
-		println!("> ");
+		print!("> ");
+		io::stdout().flush();
 
 		let input = get_input();
 		let parsed_command = make_command(input);
 
-		let command = match parsed_command.name.as_ref() {
-			"echo" => Some(commands::Echo{}),
+		let command: Option<Box<commands::Command>> = match parsed_command.name.as_ref() {
+			"echo" => Some(Box::new(commands::Echo{})),
+			"pwd" =>  Some(Box::new(commands::Pwd{})),
+			"cd" => Some(Box::new(commands::Cd{})),
 			_ => None
 		};
 
-		match command {
-			Some(cmd) => cmd.execute(parsed_command.params),
-			None => println!("Command not found")
+		let output = match command {
+			Some(cmd) => cmd.execute(parsed_command.params, &mut state),
+			None => Some("Command not found".to_string())
+		};
+
+		match output {
+			Some(output_str) => println!("{}", output_str),
+			None => println!("")
 		}
 	}
 }

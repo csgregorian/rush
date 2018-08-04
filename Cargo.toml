@@ -7,4 +7,4 @@ authors = ["Christopher Gregorian <csgregorian@gmail.com>"]
 
 [[bin]]
 name = "rush"
-path = "main.rs"
+path = "src/main.rs"
