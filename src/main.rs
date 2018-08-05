@@ -21,6 +21,7 @@ fn main() {
 			"echo" => Some(Box::new(commands::Echo{})),
 			"pwd" =>  Some(Box::new(commands::Pwd{})),
 			"cd" => Some(Box::new(commands::Cd{})),
+			"assign" => Some(Box::new(commands::Assign{})),
 			_ => None
 		};
 

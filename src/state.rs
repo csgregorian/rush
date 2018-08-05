@@ -1,13 +1,16 @@
 use std::path;
+use std::collections::HashMap;
 
 pub struct State {
-	directory: path::PathBuf
+	directory: path::PathBuf,
+	vars: HashMap<String, String>
 }
 
 impl State {
 	pub fn new(directory: &str) -> State {
 		State {
-			directory: path::PathBuf::from(directory)
+			directory: path::PathBuf::from(directory),
+			vars: HashMap::new()
 		}
 	}
 
@@ -22,5 +25,9 @@ impl State {
 
 	pub fn pop_directory(&mut self) {
 		self.directory.pop();
+	}
+
+	pub fn set_env_var(&mut self, name: String, value: String) {
+		self.vars.insert(name, value);
 	}
 }
